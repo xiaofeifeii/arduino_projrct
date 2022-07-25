@@ -1,0 +1,66 @@
+//控制电机，显示水位，水位曲线
+#define BLINKER_WIFI
+#define BLINKER_MIOT_LIGHT//支持小爱同学
+#include <Blinker.h>
+#include "AccelStepper.h"
+#define waterPIN A0  //水位传感器的引脚
+
+#define FULLSTEP 4  //全步进参数
+#define HALFSTEP 8  //半步进参数
+ 
+#define motor1Pin1  D5//步进电机的控制引脚
+#define motor1Pin2  D6
+#define motor1Pin3  D7
+#define motor1Pin4  D8
+#define BUTTON_1 "123"
+float valmotor1 = 0;//控制步进电机的变量  motor1是进食步进电机
+int valwater;//读取水位数据
+AccelStepper stepper(FULLSTEP, motor1Pin1, motor1Pin3, motor1Pin2, motor1Pin4);
+int steps = 2048;
+
+char auth[] = "98ec7c617831"; //caiyq52-改成自己在点灯app中生成的key码
+char ssid[] = "309"; //caiyq52-改成自己的WIFI名称
+char pswd[] = "309309309";  //caiyq52-改成自己的WIFI密码
+
+BlinkerNumber water("waterVolume");
+BlinkerButton Button1("123");  //步进电机的按钮
+
+void heartbeat()   //向APP发送数据，这个是心跳包
+   { water.print(valwater);}
+   
+void dataStorage()
+   {  Blinker.dataStorage("waterVolume",valwater);}
+
+void button1_callback(const String & state)
+{
+    Blinker.vibrate(); 
+    if (state=="on") {
+         valmotor1=1;
+        Button1.print("on");
+    } else if(state=="off"){
+         valmotor1=0;       
+        Button1.print("off");      
+      }
+    }
+void setup()
+{
+    Serial.begin(115200);
+    BLINKER_DEBUG.stream(Serial);    
+     BLINKER_DEBUG.debugAll();
+    Blinker.begin(auth, ssid, pswd);
+    Button1.attach(button1_callback);
+     Blinker.attachHeartbeat(heartbeat);
+      Blinker.attachDataStorage(dataStorage);
+    stepper.setMaxSpeed(500);   // 设置电机最大速度为500
+  stepper.setSpeed(500);      // 初始化电机速度为300
+    Blinker.attachHeartbeat(heartbeat);           
+} 
+
+void loop()
+{
+    Blinker.run(); 
+    valwater=analogRead(waterPIN);    
+    Blinker.delay(10);
+      if(valmotor1==1){
+      stepper.runSpeed();}    
+}

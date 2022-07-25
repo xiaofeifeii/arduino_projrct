@@ -1,0 +1,38 @@
+#include <OneWire.h>       
+//#include <LiquidCrystal_I2C.h>    //4针pcf8574驱动lcd1602库
+#include <DallasTemperature.h>   //ds18b20库
+#define buzzpin 6      //定义蜂鸣器6号引脚
+#define Onewire_bus 2     //ds18b20连接7引脚
+OneWire oneWire(Onewire_bus);
+DallasTemperature sensors(&oneWire);
+//LiquidCrystal_I2C lcd(0x27,16,2);     //LCD1602的I2C地址为0x27，LCD1602为两行，每行16个字符的液晶显示器
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  //lcd.init(); // 执行两次LCD的I2C通讯初始化
+  delay(20);
+  //lcd.init();
+  delay(20);
+  //lcd.backlight();//点亮LCD背光灯
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  delay(50);
+  Serial.print("获取温度：");    // 发送几个字
+  sensors.requestTemperatures();         //获取温度
+  Serial.println(sensors.getTempCByIndex(0));
+//  lcd.setCursor(0, 0);               // 将LCD光标移动到第一位0，0(列，行)
+//  lcd.print("temp:");
+//  lcd.print(sensors.getTempCByIndex(0));    // 传感器温度值
+//  lcd.print(" C");            // 继续前面语句写入
+//  if(sensors.getTempCByIndex(0)>40)    //温度大于40报警
+//  {
+//    digitalWrite(buzzpin,HIGH);
+//   }
+//   else
+//   {
+//    digitalWrite(buzzpin,LOW);
+//    }
+    delay(1000);
+}

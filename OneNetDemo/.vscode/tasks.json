@@ -1,0 +1,55 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe 生成活动文件",
+			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"${file}",
+				"-I",
+                "C:/Users/26769/AppData/Local/Arduino15/packages/esp8266/hardware/esp8266/3.0.2/**",
+                "D:/Program Files/Arduino/libraries/**",
+                "D:/Program Files/Arduino/hardware/arduino/avr/**",
+                "D:/Program Files/Arduino/hardware/tools/**",
+                "C:/Users/26769/Documents/Arduino/libraries/libraries/**",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+				
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "编译器: C:\\msys64\\mingw64\\bin\\g++.exe"
+		},
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe 生成活动文件",
+			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"${file}",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "编译器: C:\\msys64\\mingw64\\bin\\g++.exe"
+		}
+	]
+}

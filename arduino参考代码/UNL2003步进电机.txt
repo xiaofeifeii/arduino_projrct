@@ -1,0 +1,29 @@
+ 
+#include <Stepper.h>
+
+const int stepsPerRevolution = 200;   
+
+ //D0:GPIO16
+ //D1:GPIO5
+ //D2:GPIO4
+ //D3:GPIO0
+  //这里特别注意 ，后面4个参数分别是驱动板上的 IN1 , IN3 , IN2 , IN4 ，而不是顺着来的
+Stepper myStepper(stepsPerRevolution, 16, 4, 5, 0);
+
+void setup() {
+  //设置转速
+  myStepper.setSpeed(120); 
+  Serial.begin(9600);
+}
+
+void loop() { 
+
+  //这个电机转一圈是  2048步
+  //先顺时针转180
+  myStepper.step(1024);
+  delay(500);
+  //逆时针转90
+  myStepper.step(-1024 );
+  delay(500);
+}
+

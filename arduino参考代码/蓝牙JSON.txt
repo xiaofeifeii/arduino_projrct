@@ -1,0 +1,89 @@
+#include <Thread.h>
+#include <SPI.h>
+#include <Wire.h>
+#include <ArduinoJson.h>
+#define SCREEN_WIDTH 128 
+#define SCREEN_HEIGHT 64 
+
+
+int entrancePin = 12;
+int exportPin = 2;
+int ledPin = 7;
+
+Thread myThread = Thread();
+
+void niceCallback()
+{
+
+
+}
+int count = 0;
+void setup()    //初始化
+{
+  Serial.begin(115200);
+  pinMode(entrancePin, INPUT);
+  pinMode(exportPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+
+
+  myThread.onRun(niceCallback);
+  myThread.setInterval(5000);
+
+}
+int personState = true;
+void loop()
+{
+  if (myThread.shouldRun())
+  {
+    myThread.run();
+  }
+
+ 
+  delay(200);
+
+  if (digitalRead(entrancePin) == LOW) {
+    
+    if (personState) {       //防误判 必须两个红外对管都检测不到人才能执行
+      personState = false;
+      count++;
+      const int capacity = JSON_OBJECT_SIZE(2);
+      StaticJsonDocument<capacity> doc;
+      doc["count"] = count;
+      doc["type"] = "in";
+      String output = "";
+      serializeJson(doc, output); //序列化json
+      Serial.print(output);
+
+    }
+
+  }
+
+  if (digitalRead(exportPin) == LOW) {
+    if (count > 0) {
+      if (personState) {   //防误判 必须两个红外对管都检测不到人才能执行
+        personState = false;
+        count--;
+        const int capacity = JSON_OBJECT_SIZE(2);
+        StaticJsonDocument<capacity> doc;
+        doc["count"] = count;
+        doc["type"] = "ou";
+        String output = "";
+        serializeJson(doc, output);   //序列化json
+        Serial.print(output);    //以字符串形式发送出去
+      }
+    }
+  }
+
+
+  if (digitalRead(exportPin) == HIGH && digitalRead(entrancePin) == HIGH) {//防误判 必须两个红外对管都检测不到人才能执行
+    personState = true;
+  }
+
+  if (count == 0) {     //控制LED灯的亮灭，如果人数为0则熄灯
+    digitalWrite(ledPin, LOW);
+  } else {
+    digitalWrite(ledPin, HIGH);
+  }
+
+
+}

@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:/Users/26769/AppData/Local/Arduino15/packages/esp8266/hardware/esp8266/3.0.2/**",
+                "D:/Program Files/Arduino/libraries/**",
+                "D:/Program Files/Arduino/hardware/arduino/avr/**",
+                "D:/Program Files/Arduino/hardware/tools/**",
+                "C:/Users/26769/Documents/Arduino/libraries/libraries/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:uno",
+    "sketch": "SmartMedicineBox.ino",
+    "port": "COM4"
+}
