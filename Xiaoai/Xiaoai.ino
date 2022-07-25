@@ -3,7 +3,7 @@
 #include <Blinker.h>
 char auth[] = "ab1e3f1215ab"; //点灯的密钥
 char ssid[] = "Mi10"; //wifi的SSID
-char pswd[] = "582975413"; //wifi的密码
+char pswd[] = "********"; //wifi的密码
 WiFiUDP udp;
 bool oState = false;
 void miotPowerState(const String & state)
